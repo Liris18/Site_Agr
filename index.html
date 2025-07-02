@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Robô Monitor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Cabeçalho com imagem de fundo -->
+  <header class="topo">
+    <img src="img/Titulo_Carrinho.jpeg" alt="Fundo Titulo">
+    <h1>Robô Monitor</h1>
+  </header>
+
+  <!-- Blocos clicáveis -->
+  <section class="cards-container">
+    <div class="card">
+      <img src="img/IMG-20250701-WA0005.jpg" alt="Sobre o projeto">
+      <h3>Sobre o Projeto</h3>
+      <div class="card-content">
+        <p>O Robô Monitor é um projeto de robótica voltado à sustentabilidade e ao agronegócio. Ele detecta temperatura, umidade e agrotóxicos no ar, mede umidade do solo e funciona com energia solar. Possuindo sensores e display, estão embutidos em um carrinho.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/capa2.jpg" alt="Objetivo">
+      <h3>Objetivo</h3>
+      <div class="card-content">
+        <p>Desenvolver uma ferramenta acessível, prática e econômica que auxilie no monitoramento agrícola sustentável, fornecendo dados, por meio de gráficos e de um display que espelha os dados em tempo real.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/manual.png" alt="Manual">
+      <h3>Manual de Uso</h3>
+      <div class="card-content">
+        <p>Para ver o manual completo com as peças e imagens:</p>
+        <button onclick="abrirManual()">Abrir Manual Completo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gráficos -->
+  <section class="bloco destaque">
+    <h2>Gráficos de Monitoramento</h2>
+    <canvas id="graficoAgrotoxicos"></canvas>
+    <canvas id="graficoUmidadeSolo"></canvas>
+    <canvas id="graficoUmidadeAr"></canvas>
+    <canvas id="graficoTemperatura"></canvas>
+  </section>
+
+  <!-- Manual Completo -->
+  <section id="manual-completo" style="display: none; padding: 30px 20px; max-width: 1000px; margin: 0 auto;">
+    <h2>Manual Completo</h2>
+
+    <h3>Peças do Carrinho</h3>
+   <img src="img/carrinho.jpg.jpg" alt="Carrinho" class="carrinho">
+
+   <h3>Sensores</h3>
+
+<img src="img/sensor1.jpg.webp" alt="Sensor 1">
+<p class="descricao-sensor">Sensor de temperatura e umidade do ar</p>
+
+<img src="img/sensor2.jpg.webp" alt="Sensor 2">
+<p class="descricao-sensor">Sensor de umidade do solo</p>
+
+    <h3>Instruções de Uso</h3>
+    <ol>
+      <li>Ligue o robô e verifique a carga dele.</li>
+      <li>Programe a rota ou controle manualmente.</li>
+      <li>Para o uso manual pode-se usar o botão verde no carrinho, para faze-lo andar e parar.</li>
+      <li>Ative os sensores antes do uso.</li>
+      <li>Realize o monitoramento.</li>
+      <li>Baixe os dados para o computador.</li>
+      <li>Analise os resultados nos gráficos.</li>
+      <li>Em caso de problemas verificar as conexões de jumpers, placas ou sensores. Acima possui as imagens dos componentes presentes no seu produto. </li>
+    </ol>
+
+    <button onclick="fecharManual()" style="margin-top: 20px; padding: 10px 15px;">Fechar Manual</button>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Mostrar/ocultar conteúdo do manual
+    function abrirManual() {
+      document.getElementById("manual-completo").style.display = "block";
+      window.scrollTo({ top: document.getElementById("manual-completo").offsetTop, behavior: 'smooth' });
+    }
+
+    function fecharManual() {
+      document.getElementById("manual-completo").style.display = "none";
+    }
+
+    // Interação dos cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('active');
+      });
+    });
+
+    // Gráficos
+    new Chart(document.getElementById('graficoAgrotoxicos'), {
+      type: 'bar',
+      data: {
+        labels: ['Área 1', 'Área 2', 'Área 3', 'Área 4'],
+        datasets: [{
+          label: 'Nível de Agrotóxicos (ppm)',
+          data: [10, 25, 15, 5],
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    });
+
+    new Chart(document.getElementById('graficoUmidadeSolo'), {
+      type: 'bar',
+      data: {
+        labels: ['0-20%', '20-40%', '40-60%', '60-80%'],
+        datasets: [{
+          label: 'Umidade do Solo (%)',
+          data: [15, 35, 55, 75],
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
+    });
+
+    new Chart(document.getElementById('graficoUmidadeAr'), {
+      type: 'bar',
+      data: {
+        labels: ['0-30%', '30-50%', '50-60%', '60-80%', '80-100%'],
+        datasets: [{
+          label: 'Umidade do Ar (%)',
+          data: [25, 40, 55, 70, 90],
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
+    });
+
+    new Chart(document.getElementById('graficoTemperatura'), {
+      type: 'bar',
+      data: {
+        labels: ['0-10°C', '10-18°C', '18-27°C', '27-35°C', '35-45°C', '>45°C'],
+        datasets: [{
+          label: 'Temperatura (°C)',
+          data: [5, 14, 22, 30, 40, 50],
+          backgroundColor: 'rgba(255, 206, 86, 0.6)',
+          borderColor: 'rgba(255, 206, 86, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: { responsive: true, scales: { y: { beginAtZero: true, max: 60 } } }
+    });
+  </script>
+</body>
+</html>
